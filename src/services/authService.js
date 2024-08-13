@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const userRepository = require('../repositories/userRepository');
 
 class AuthService {
-  async signup(username, password) {
+  async signup(username, email ,password) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    return userRepository.createUser(username, hashedPassword);
+    return userRepository.createUser(username,email , hashedPassword);
   }
 
-  async login(username, password) {
-    const user = await userRepository.findUserByUsername(username);
+  async login(email, password) {
+    const user = await userRepository.findUserByUsername(email);
     if (!user) {
       throw new Error('User not found');
     }

@@ -1,13 +1,15 @@
 const { User } = require('../models');
 
-class UserRepository {
-  async createUser(username, email,password) {
+// Function to create a user
+async function createUser(username, email, password) {
+    console.log("Creating user", { username, email, password });
     return User.create({ username, email, password });
-  }
-
-  async findUserByUsername(email) {
-    return User.findOne({ where: { email } });
-  }
 }
 
-module.exports = new UserRepository();
+// Function to find a user by email
+async function findUserByUsername(email) {
+    console.log("Finding user by email", email);
+    return User.findOne({ where: { email } });
+}
+
+module.exports = { createUser, findUserByUsername };

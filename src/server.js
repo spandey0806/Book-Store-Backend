@@ -1,31 +1,32 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const routes = require('./routes');
-const { sequelize } = require('./models');
+const { Sequelize } = require('sequelize');
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT||3000;
+ 
 app.use(express.json());
 app.use('/api', routes);
+app.get("/ping", (req, res) => {
+  return res.json({ message: `BookStore api is live` });
+});
+
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
     process.env.DB_PASSWORD,
     {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: 'mysql',
-      dialectOptions: {
-        ssl: {
-          rejectUnauthorized: true,
-        }
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
       }
-    }
   );
+
+
+
 
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
